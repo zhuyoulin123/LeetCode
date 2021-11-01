@@ -40,8 +40,55 @@ public class BestTimeToBuy {
     return dp[length-1][0];
   }
 
+  public static int maxProfit2(int[] prices) {
+    /**
+     * 方法1的优化
+     * 由方法1可以看出当天利润只和前一天相关
+     * 所以实际上使用一个变量保存不持有的最大利润，另一个变量保存持有的最大利润即可
+     */
+    int length = prices.length;
+    if (prices == null || length < 2) {
+      return 0;
+    }
+    /**
+     * 初始化条件第一天是否持有
+     * hold: -prices[0]
+     * noHold: 0
+     * 在遍历过程中，实际上hold和notHeld可以看做是昨天的收益来使用
+     */
+    int hold = -prices[0];
+    int notHeld = 0;
+    for (int i = 1; i < length; i++) {
+      hold = Math.max(hold, notHeld - prices[i]);
+      notHeld = Math.max(notHeld, hold + prices[i]);
+    }
+    return notHeld;
+  }
+
+  public static int maxProfit3(int[] prices) {
+    /**
+     * 贪心算法
+     * 今日股价 - 昨日股价一共有三种情况 0 负数 正数
+     * 我们要求最大利润，则只加正数即可
+     * 此方法只能求出最大利润，并不能反映真实的交易过程
+     */
+    int length = prices.length;
+    if (prices == null || length < 2) {
+      return 0;
+    }
+    int profit = 0;
+    for (int i = 1; i < prices.length; i++) {
+      profit += Math.max(0, prices[i] - prices[i - 1]);
+    }
+    return profit;
+  }
+
   public static void main(String[] args) {
     System.out.println(maxProfit(new int[]{1,2,3,4,5}));
     System.out.println(maxProfit(new int[]{7,1,5,3,6,4}));
+    System.out.println(maxProfit2(new int[]{1,2,3,4,5}));
+    System.out.println(maxProfit2(new int[]{7,1,5,3,6,4}));
+    System.out.println(maxProfit3(new int[]{1,2,3,4,5}));
+    System.out.println(maxProfit3(new int[]{7,1,5,3,6,4}));
   }
 }
