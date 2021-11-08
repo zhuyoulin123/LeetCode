@@ -1,8 +1,6 @@
 package com.zyl.demo.array;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author zhuyoulin
@@ -46,7 +44,48 @@ public class IntersectionArrays {
     return res;
   }
 
+  public static int[] intersect2(int[] nums1, int[] nums2) {
+    /**
+     * 哈希表解法
+     * 将数组中的值存到map中，键为数组中的值，值为该值出现的次数
+     * 遍历另一个数组，如果该值在map中存在，则减少map相应键的值，并将其存入list中
+     * 为了降低空间复杂度，我们优先遍历较短数组
+     */
+    if (nums1.length > nums2.length) {
+      // 判断入参的长度，优先遍历较短数组
+      return intersect2(nums2, nums1);
+    }
+    Map<Integer, Integer> numsMap = new HashMap(nums1.length);
+    // 遍历较短数组，将值放入map中
+    for (int num : nums1) {
+      int count = numsMap.getOrDefault(num, 0) + 1;
+      numsMap.put(num, count);
+    }
+
+    int[] resArray = new int[nums1.length];
+    int index = 0;
+    // 遍历数组2
+    for (int num : nums2) {
+      // 判断num值是否在数组中
+      int count = numsMap.getOrDefault(num, 0);
+      if (count > 0) {
+        // 如果num在数组中，那么将其添加到结果数组中, index++会先执行赋值，之后再++
+        resArray[index++] = num;
+        count--;
+        // 如果该值出现了不止一次，那么key对应的值减1
+        if (count > 0) {
+          numsMap.put(num, count);
+        } else {
+          numsMap.remove(num);
+        }
+      }
+    }
+    // 如果交集的数量小于nums1的长度，那么直接返回resArray，后面的项会补0，故只需截取[0, index]区间即可
+    return Arrays.copyOfRange(resArray, 0, index);
+  }
+
   public static void main(String[] args) {
     System.out.println(intersect(new int[]{1,2,2,3,6,4,5}, new int[]{2,2,3}));
+    System.out.println(intersect2(new int[]{1,2,2,1}, new int[]{2,2}));
   }
 }
