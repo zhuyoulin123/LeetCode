@@ -1,5 +1,8 @@
 package com.zyl.demo.array;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author zhuyoulin
  * @program IntelliJ IDEA
@@ -39,6 +42,48 @@ public class RevisePractise {
     int res = 0;
     for (int i = 0; i < prices.length - 1; i++) {
       res += Math.max(prices[i + 1] - prices[i], 0);
+    }
+    return res;
+  }
+
+  /**
+   * 只出现了一次的数字 (哈希解法)
+   * @param nums 数组
+   * @return 返回的结果
+   */
+  public int singleNumber(int[] nums) {
+    // 声明一个Set，利用Set中元素无法重复的特性
+    Set<Integer> res = new HashSet<>();
+    // 遍历数组，当把元素添加进set中时，如果返回false，则说明元素已经存在
+    for (int num : nums) {
+      if (!res.add(num)) {
+        // 当该元素已经存在时，将其remove
+        res.remove(num);
+      }
+    }
+    // 最后set中存在的值就是结果
+    return (int) res.toArray()[0];
+  }
+
+  /**
+   * 只出现了一次的数字 (位运算解法)
+   * @param nums
+   * @return
+   */
+  public int singleNumber2(int[] nums) {
+    /**
+     * 1. 一个非0数与0异或结果为自己
+     * 2. 0和0异或结果为0
+     * 3. 异或运算满足交换律和结合律
+     *
+     * 假设数组为[a, a, b, c, b, d, c]
+     * 有: a^a^b^c^b^d^c = (a^a)^(b^b)^(c^c)^(d) = 0^0^0^d = d
+     *
+     * 所以该题的结果为num中所有元素异或的结果
+     */
+    int res = 0;
+    for (int num : nums) {
+      res ^= num;
     }
     return res;
   }
