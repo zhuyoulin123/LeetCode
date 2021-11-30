@@ -87,4 +87,26 @@ public class RevisePractise {
     }
     return res;
   }
+
+  /**
+   * 加一
+   * @param digits 数组
+   * @return 结果
+   */
+  public int[] plusOne(int[] digits) {
+    /**
+     * 遍历数组，当该位置上的值不为9时直接加1
+     * 当该位置上当值为9时，往数组下标为
+     */
+    for (int i = digits.length; i > 0; i--) {
+      if (digits[i-1] != 9) {
+        digits[i-1] += 1;
+        return digits;
+      }
+      digits[i-1] = 0;
+    }
+    int[] res = new int[digits.length+1];
+    res[0] = 1;
+    return res;
+  }
 }
