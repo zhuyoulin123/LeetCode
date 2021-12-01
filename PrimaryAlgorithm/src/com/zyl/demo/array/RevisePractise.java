@@ -1,7 +1,6 @@
 package com.zyl.demo.array;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author zhuyoulin
@@ -108,5 +107,43 @@ public class RevisePractise {
     int[] res = new int[digits.length+1];
     res[0] = 1;
     return res;
+  }
+
+  /**
+   * 两数的交集
+   */
+  public int[] intersect(int[] nums1, int[] nums2) {
+    if (nums1.length > nums2.length) {
+      intersect(nums2, nums1);
+    }
+    Map<Integer, Integer> nums = new HashMap<>();
+    for (int num : nums1) {
+      nums.put(num, nums.getOrDefault(num, 0) + 1);
+    }
+    int[] res = new int[nums1.length];
+    int index = 0;
+    /*for (int num : nums2) {
+      int count = nums.getOrDefault(num, 0);
+      if (count > 1) {
+        res[index++] = num;
+        nums.put(num, --count);
+      } else if (count == 1){
+        res[index++] = num;
+        nums.remove(num);
+      }
+    }*/
+    for (int num : nums2) {
+      int count = nums.getOrDefault(num, 0);
+      if (count > 0) {
+        res[index++] = num;
+        count--;
+        if (count > 0) {
+          nums.put(num, count);
+        } else {
+          nums.remove(num);
+        }
+      }
+    }
+    return Arrays.copyOfRange(res, 0, index);
   }
 }

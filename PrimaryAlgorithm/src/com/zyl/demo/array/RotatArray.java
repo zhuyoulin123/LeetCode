@@ -6,7 +6,7 @@ package com.zyl.demo.array;
  * @description 旋转数组
  * @create 2021-11-01 23:07
  **/
-public class RotatAerray {
+public class RotatArray {
   public static void rotate(int[] nums, int k) {
     /**
      * 使用一个临时数组来保存原数组

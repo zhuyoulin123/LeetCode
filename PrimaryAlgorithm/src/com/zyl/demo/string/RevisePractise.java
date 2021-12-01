@@ -7,6 +7,9 @@ package com.zyl.demo.string;
  * @create 2021-11-30 23:01
  **/
 public class RevisePractise {
+  /**
+   * 反转字符串
+   */
   public static void reverseString(char[] s) {
     for (int left = 0, right = s.length - 1; right > left; left++, right--) {
       s[left] ^= s[right];
